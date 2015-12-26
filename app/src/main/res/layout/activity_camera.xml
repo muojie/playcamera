@@ -6,7 +6,7 @@
     <FrameLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content" >
-        <org.yanzi.playcamera.preview.CameraGLSurfaceView
+        <org.yanzi.camera.preview.CameraGLSurfaceView
             android:id="@+id/camera_textureview"
             android:layout_width="0dip"
             android:layout_height="0dip" />

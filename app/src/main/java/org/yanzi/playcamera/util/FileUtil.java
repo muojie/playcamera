@@ -1,4 +1,4 @@
-package org.yanzi.playcamera.util;
+package org.yanzi.util;
 
 import java.io.BufferedOutputStream;
 import java.io.File;
@@ -10,9 +10,9 @@ import android.os.Environment;
 import android.util.Log;
 
 public class FileUtil {
-	private static final String TAG = "FileUtil";
+	private static final  String TAG = "FileUtil";
 	private static final File parentPath = Environment.getExternalStorageDirectory();
-	private static String storagePath = "";
+	private static   String storagePath = "";
 	private static final String DST_FOLDER_NAME = "PlayCamera";
 
 	/**初始化保存路径

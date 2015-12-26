@@ -1,4 +1,4 @@
-package org.yanzi.playcamera.util;
+package org.yanzi.util;
 
 import java.util.Collections;
 import java.util.Comparator;
@@ -25,7 +25,7 @@ public class CamParaUtil {
 		}
 	}
 
-	public Size getPropPreviewSize(List<Size> list, float th, int minWidth){
+	public  Size getPropPreviewSize(List<Camera.Size> list, float th, int minWidth){
 		Collections.sort(list, sizeComparator);
 
 		int i = 0;
@@ -41,7 +41,7 @@ public class CamParaUtil {
 		}
 		return list.get(i);
 	}
-	public Size getPropPictureSize(List<Size> list, float th, int minWidth){
+	public Size getPropPictureSize(List<Camera.Size> list, float th, int minWidth){
 		Collections.sort(list, sizeComparator);
 
 		int i = 0;
@@ -69,7 +69,7 @@ public class CamParaUtil {
 		}
 	}
 
-	public  class CameraSizeComparator implements Comparator<Size> {
+	public  class CameraSizeComparator implements Comparator<Camera.Size>{
 		public int compare(Size lhs, Size rhs) {
 			// TODO Auto-generated method stub
 			if(lhs.width == rhs.width){
@@ -92,9 +92,9 @@ public class CamParaUtil {
 		List<Size> previewSizes = params.getSupportedPreviewSizes();
 		for(int i=0; i< previewSizes.size(); i++){
 			Size size = previewSizes.get(i);
-			Log.i(TAG, "previewSizes:width = " + size.width + " height = " + size.height);
+			Log.i(TAG, "previewSizes:width = "+size.width+" height = "+size.height);
 		}
-	
+
 	}
 
 	/**打印支持的pictureSizes
@@ -104,8 +104,8 @@ public class CamParaUtil {
 		List<Size> pictureSizes = params.getSupportedPictureSizes();
 		for(int i=0; i< pictureSizes.size(); i++){
 			Size size = pictureSizes.get(i);
-			Log.i(TAG, "pictureSizes:width = " + size.width
-					+ " height = " + size.height);
+			Log.i(TAG, "pictureSizes:width = "+ size.width
+					+" height = " + size.height);
 		}
 	}
 	/**打印支持的聚焦模式

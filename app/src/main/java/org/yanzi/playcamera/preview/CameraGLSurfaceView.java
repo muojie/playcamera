@@ -1,9 +1,9 @@
-package org.yanzi.playcamera.preview;
+package org.yanzi.camera.preview;
 
 import javax.microedition.khronos.egl.EGLConfig;
 import javax.microedition.khronos.opengles.GL10;
 
-import org.yanzi.playcamera.CameraInterface;
+import org.yanzi.camera.CameraInterface;
 
 import android.content.Context;
 import android.graphics.SurfaceTexture;
@@ -47,7 +47,7 @@ public class CameraGLSurfaceView extends GLSurfaceView implements Renderer, Surf
 		if(!CameraInterface.getInstance().isPreviewing()){
 			CameraInterface.getInstance().doStartPreview(mSurface, 1.33f);
 		}
-	
+
 
 	}
 	@Override
@@ -61,7 +61,7 @@ public class CameraGLSurfaceView extends GLSurfaceView implements Renderer, Surf
 		mSurface.getTransformMatrix(mtx);
 		mDirectDrawer.draw(mtx);
 	}
-	
+
 	@Override
 	public void onPause() {
 		// TODO Auto-generated method stub
@@ -75,7 +75,7 @@ public class CameraGLSurfaceView extends GLSurfaceView implements Renderer, Surf
 		GLES20.glGenTextures(1, texture, 0);
 		GLES20.glBindTexture(GLES11Ext.GL_TEXTURE_EXTERNAL_OES, texture[0]);
 		GLES20.glTexParameterf(GLES11Ext.GL_TEXTURE_EXTERNAL_OES,
-				GL10.GL_TEXTURE_MIN_FILTER, GL10.GL_LINEAR);
+				GL10.GL_TEXTURE_MIN_FILTER,GL10.GL_LINEAR);
 		GLES20.glTexParameterf(GLES11Ext.GL_TEXTURE_EXTERNAL_OES,
 				GL10.GL_TEXTURE_MAG_FILTER, GL10.GL_LINEAR);
 		GLES20.glTexParameteri(GLES11Ext.GL_TEXTURE_EXTERNAL_OES,
