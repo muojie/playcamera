@@ -1,4 +1,4 @@
-package org.yanzi.camera.preview;
+package org.yanzi.playcamera.preview;
 
 import java.nio.ByteBuffer;
 import java.nio.ByteOrder;
@@ -10,24 +10,24 @@ import android.opengl.GLES20;
 import android.opengl.Matrix;
 
 public class DirectDrawer {
-    private final String vertexShaderCode =
+	private final String vertexShaderCode =
             "attribute vec4 vPosition;" +
-                    "attribute vec2 inputTextureCoordinate;" +
-                    "varying vec2 textureCoordinate;" +
-                    "void main()" +
-                    "{"+
-                    "gl_Position = vPosition;"+
-                    "textureCoordinate = inputTextureCoordinate;" +
-                    "}";
+            "attribute vec2 inputTextureCoordinate;" +
+            "varying vec2 textureCoordinate;" +
+            "void main()" +
+            "{"+
+                "gl_Position = vPosition;"+
+                "textureCoordinate = inputTextureCoordinate;" +
+            "}";
 
     private final String fragmentShaderCode =
             "#extension GL_OES_EGL_image_external : require\n"+
-                    "precision mediump float;" +
-                    "varying vec2 textureCoordinate;\n" +
-                    "uniform samplerExternalOES s_texture;\n" +
-                    "void main() {" +
-                    "  gl_FragColor = texture2D( s_texture, textureCoordinate );\n" +
-                    "}";
+            "precision mediump float;" +
+            "varying vec2 textureCoordinate;\n" +
+            "uniform samplerExternalOES s_texture;\n" +
+            "void main() {" +
+            "  gl_FragColor = texture2D( s_texture, textureCoordinate );\n" +
+            "}";
 
     private FloatBuffer vertexBuffer, textureVerticesBuffer;
     private ShortBuffer drawListBuffer;
@@ -43,17 +43,17 @@ public class DirectDrawer {
     private final int vertexStride = COORDS_PER_VERTEX * 4; // 4 bytes per vertex
 
     static float squareCoords[] = {
-            -1.0f,  1.0f,
-            -1.0f, -1.0f,
-            1.0f, -1.0f,
-            1.0f,  1.0f,
+       -1.0f,  1.0f,
+       -1.0f, -1.0f,
+        1.0f, -1.0f,
+        1.0f,  1.0f,
     };
 
     static float textureVertices[] = {
-            0.0f, 1.0f,
-            1.0f, 1.0f,
-            1.0f, 0.0f,
-            0.0f, 0.0f,
+        0.0f, 1.0f,
+        1.0f, 1.0f,
+        1.0f, 0.0f,
+        0.0f, 0.0f,
     };
 
     private int texture;
@@ -108,11 +108,11 @@ public class DirectDrawer {
 
         mTextureCoordHandle = GLES20.glGetAttribLocation(mProgram, "inputTextureCoordinate");
         GLES20.glEnableVertexAttribArray(mTextureCoordHandle);
-
+        
 //        textureVerticesBuffer.clear();
 //        textureVerticesBuffer.put( transformTextureCoordinates( textureVertices, mtx ));
 //        textureVerticesBuffer.position(0);
-
+        
         GLES20.glVertexAttribPointer(mTextureCoordHandle, COORDS_PER_VERTEX, GLES20.GL_FLOAT, false, vertexStride, textureVerticesBuffer);
         GLES20.glDrawElements(GLES20.GL_TRIANGLES, drawOrder.length, GLES20.GL_UNSIGNED_SHORT, drawListBuffer);
 
@@ -120,7 +120,7 @@ public class DirectDrawer {
         GLES20.glDisableVertexAttribArray(mPositionHandle);
         GLES20.glDisableVertexAttribArray(mTextureCoordHandle);
     }
-
+    
     private  int loadShader(int type, String shaderCode){
 
         // create a vertex shader type (GLES20.GL_VERTEX_SHADER)
@@ -134,16 +134,16 @@ public class DirectDrawer {
         return shader;
     }
     private float[] transformTextureCoordinates( float[] coords, float[] matrix)
-    {
-        float[] result = new float[ coords.length ];
-        float[] vt = new float[4];
+    {          
+       float[] result = new float[ coords.length ];        
+       float[] vt = new float[4];      
 
-        for ( int i = 0 ; i < coords.length ; i += 2 ) {
-            float[] v = { coords[i], coords[i+1], 0 , 1  };
-            Matrix.multiplyMV(vt, 0, matrix, 0, v, 0);
-            result[i] = vt[0];
-            result[i+1] = vt[1];
-        }
-        return result;
+       for ( int i = 0 ; i < coords.length ; i += 2 ) {
+           float[] v = { coords[i], coords[i+1], 0 , 1  };
+           Matrix.multiplyMV(vt, 0, matrix, 0, v, 0);
+           result[i] = vt[0];
+           result[i+1] = vt[1];
+       }
+       return result;
     }
 }

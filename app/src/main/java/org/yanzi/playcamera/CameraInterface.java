@@ -1,16 +1,15 @@
-package org.yanzi.camera;
+package org.yanzi.playcamera;
 
 import java.io.IOException;
 import java.util.List;
 
-import org.yanzi.util.CamParaUtil;
-import org.yanzi.util.FileUtil;
-import org.yanzi.util.ImageUtil;
+import org.yanzi.playcamera.util.CamParaUtil;
+import org.yanzi.playcamera.util.FileUtil;
+import org.yanzi.playcamera.util.ImageUtil;
 
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.ImageFormat;
-import android.graphics.PixelFormat;
 import android.graphics.SurfaceTexture;
 import android.hardware.Camera;
 import android.hardware.Camera.PictureCallback;
@@ -23,7 +22,7 @@ public class CameraInterface {
 	private static final String TAG = "yanzi";
 	private Camera mCamera;
 	private Camera.Parameters mParams;
-	private boolean isPreviewing = false;
+ 	private boolean isPreviewing = false;
 	private float mPreviwRate = -1f;
 	private static CameraInterface mCameraInterface;
 
@@ -55,8 +54,8 @@ public class CameraInterface {
 			Log.i(TAG, "Camera open 异常!!!");
 			doStopCamera();
 		}
-
-
+			
+	
 	}
 	/**使用Surfaceview开启预览
 	 * @param holder
@@ -99,7 +98,7 @@ public class CameraInterface {
 			}
 			initCamera(previewRate);
 		}
-
+		
 	}
 
 	/**
@@ -109,11 +108,11 @@ public class CameraInterface {
 		if(null != mCamera)
 		{
 			mCamera.setPreviewCallback(null);
-			mCamera.stopPreview();
-			isPreviewing = false;
+			mCamera.stopPreview(); 
+			isPreviewing = false; 
 			mPreviwRate = -1f;
 			mCamera.release();
-			mCamera = null;
+			mCamera = null;     
 		}
 	}
 	/**
@@ -152,7 +151,7 @@ public class CameraInterface {
 			if(focusModes.contains("continuous-video")){
 				mParams.setFocusMode(Camera.Parameters.FOCUS_MODE_CONTINUOUS_VIDEO);
 			}
-			mCamera.setParameters(mParams);
+			mCamera.setParameters(mParams);	
 			mCamera.startPreview();//开启预览
 
 
@@ -172,7 +171,7 @@ public class CameraInterface {
 
 	/*为了实现拍照的快门声音及拍照保存照片需要下面三个回调变量*/
 	ShutterCallback mShutterCallback = new ShutterCallback()
-			//快门按下的回调，在这里我们可以设置类似播放“咔嚓”声之类的操作。默认的就是咔嚓。
+	//快门按下的回调，在这里我们可以设置类似播放“咔嚓”声之类的操作。默认的就是咔嚓。
 	{
 		public void onShutter() {
 			// TODO Auto-generated method stub
@@ -180,7 +179,7 @@ public class CameraInterface {
 		}
 	};
 	PictureCallback mRawCallback = new PictureCallback()
-			// 拍摄的未压缩原数据的回调,可以为null
+	// 拍摄的未压缩原数据的回调,可以为null
 	{
 
 		public void onPictureTaken(byte[] data, Camera camera) {
@@ -190,7 +189,7 @@ public class CameraInterface {
 		}
 	};
 	PictureCallback mJpegPictureCallback = new PictureCallback()
-			//对jpeg图像数据的回调,最重要的一个回调
+	//对jpeg图像数据的回调,最重要的一个回调
 	{
 		public void onPictureTaken(byte[] data, Camera camera) {
 			// TODO Auto-generated method stub

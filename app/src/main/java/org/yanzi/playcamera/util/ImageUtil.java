@@ -1,4 +1,4 @@
-package org.yanzi.util;
+package org.yanzi.playcamera.util;
 
 import android.graphics.Bitmap;
 import android.graphics.Matrix;

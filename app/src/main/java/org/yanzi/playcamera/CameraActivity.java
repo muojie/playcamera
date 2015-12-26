@@ -1,10 +1,10 @@
-package org.yanzi.activity;
+package org.yanzi.playcamera;
 
-import org.yanzi.camera.CameraInterface;
-import org.yanzi.camera.CameraInterface.CamOpenOverCallback;
-import org.yanzi.camera.preview.CameraGLSurfaceView;
-import org.yanzi.playcamera_v3.R;
-import org.yanzi.util.DisplayUtil;
+import org.yanzi.playcamera.CameraInterface;
+import org.yanzi.playcamera.CameraInterface.CamOpenOverCallback;
+import org.yanzi.playcamera.preview.CameraGLSurfaceView;
+import org.yanzi.playcamera.R;
+import org.yanzi.playcamera.util.DisplayUtil;
 
 import android.app.Activity;
 import android.graphics.Point;
@@ -19,7 +19,7 @@ import android.view.View.OnClickListener;
 import android.view.ViewGroup.LayoutParams;
 import android.widget.ImageButton;
 
-public class CameraActivity extends Activity{
+public class CameraActivity extends Activity {
 	private static final String TAG = "yanzi";
 	CameraGLSurfaceView glSurfaceView = null;
 	ImageButton shutterBtn;
@@ -30,14 +30,14 @@ public class CameraActivity extends Activity{
 		setContentView(R.layout.activity_camera);
 		initUI();
 		initViewParams();
-
+		
 		shutterBtn.setOnClickListener(new BtnListeners());
 	}
 
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
 		// Inflate the menu; this adds items to the action bar if it is present.
-		getMenuInflater().inflate(R.menu.camera, menu);
+		getMenuInflater().inflate(R.menu.menu_camera, menu);
 		return true;
 	}
 
@@ -56,21 +56,21 @@ public class CameraActivity extends Activity{
 		//手动设置拍照ImageButton的大小为120dip×120dip,原图片大小是64×64
 		LayoutParams p2 = shutterBtn.getLayoutParams();
 		p2.width = DisplayUtil.dip2px(this, 80);
-		p2.height = DisplayUtil.dip2px(this, 80);;
-		shutterBtn.setLayoutParams(p2);
+		p2.height = DisplayUtil.dip2px(this, 80);
+		shutterBtn.setLayoutParams(p2);	
 
 	}
 
-	private class BtnListeners implements OnClickListener{
+	private class BtnListeners implements OnClickListener {
 
 		@Override
 		public void onClick(View v) {
 			// TODO Auto-generated method stub
 			switch(v.getId()){
-				case R.id.btn_shutter:
-					CameraInterface.getInstance().doTakePicture();
-					break;
-				default:break;
+			case R.id.btn_shutter:
+				CameraInterface.getInstance().doTakePicture();
+				break;
+			default:break;
 			}
 		}
 
