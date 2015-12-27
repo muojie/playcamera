@@ -11,7 +11,7 @@ public class Sample3_1Activity extends Activity
     public void onCreate(Bundle savedInstanceState)
     {
         super.onCreate(savedInstanceState);
-        //����Ϊ����ģʽ
+        //设置为竖屏模式
 		setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
         mview=new MyTDView(this);
         mview.requestFocus();

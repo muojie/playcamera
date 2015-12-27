@@ -1,5 +1,6 @@
 package org.yanzi.playcamera.Sample3_1;
 
+
 import javax.microedition.khronos.egl.EGLConfig;
 import javax.microedition.khronos.opengles.GL10;
 import android.content.Context;
@@ -21,37 +22,37 @@ public class MyTDView extends GLSurfaceView
 		this.setRenderer(mRenderer);
 		this.setRenderMode(GLSurfaceView.RENDERMODE_CONTINUOUSLY);
 	}
-	private class SceneRenderer implements Renderer
+	private class SceneRenderer implements GLSurfaceView.Renderer
 	{
 		Triangle tle;
 		public void onDrawFrame(GL10 gl)
 		{
-			//�����Ȼ�������ɫ����
-            GLES20.glClear( GLES20.GL_DEPTH_BUFFER_BIT | GLES20.GL_COLOR_BUFFER_BIT);
-            //��������ζ�
-            tle.drawSelf();
+			//清除深度缓冲与颜色缓冲
+			GLES20.glClear( GLES20.GL_DEPTH_BUFFER_BIT | GLES20.GL_COLOR_BUFFER_BIT);
+			//绘制三角形对
+			tle.drawSelf();
 		}
 		public void onSurfaceChanged(GL10 gl, int width, int height)
 		{
-			//�����Ӵ���С��λ��
-        	GLES20.glViewport(0, 0, width, height);
-        	//����GLSurfaceView�Ŀ�߱�
-            float ratio = (float) width / height;
-            //���ô˷����������͸��ͶӰ����
-            Matrix.frustumM(Triangle.mProjMatrix, 0, -ratio, ratio, -1, 1, 1, 10);
-            //���ô˷������������9����λ�þ���
-            Matrix.setLookAtM(Triangle.mVMatrix, 0, 0,0,3,0f,0f,0f,0f,1.0f,0.0f);
+			//设置视窗大小及位置
+			GLES20.glViewport(0, 0, width, height);
+			//计算GLSurfaceView的宽高比
+			float ratio = (float) width / height;
+			//调用此方法计算产生透视投影矩阵
+			Matrix.frustumM(Triangle.mProjMatrix, 0, -ratio, ratio, -1, 1, 1, 10);
+			//调用此方法产生摄像机9参数位置矩阵
+			Matrix.setLookAtM(Triangle.mVMatrix, 0, 0,0,3,0f,0f,0f,0f,1.0f,0.0f);
 		}
 		public void onSurfaceCreated(GL10 gl, EGLConfig config)
 		{
-			//������Ļ����ɫRGBA
-            GLES20.glClearColor(0,0,0,1.0f);
-            //��������ζԶ���
-            tle=new Triangle(MyTDView.this);
-            //����ȼ��
-            GLES20.glEnable(GLES20.GL_DEPTH_TEST);
-    		rthread=new RotateThread();
-    		rthread.start();
+			//设置屏幕背景色RGBA
+			GLES20.glClearColor(0,0,0,1.0f);
+			//创建三角形对对象
+			tle=new Triangle(MyTDView.this);
+			//打开深度检测
+			GLES20.glEnable(GLES20.GL_DEPTH_TEST);
+			rthread=new RotateThread();
+			rthread.start();
 		}
 	}
 	public class RotateThread extends Thread
