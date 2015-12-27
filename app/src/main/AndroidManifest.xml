@@ -18,6 +18,15 @@
         android:icon="@drawable/ic_launcher_icon"
         android:label="@string/app_name"
         android:theme="@style/AppTheme" >
+
+        <activity android:name="org.yanzi.playcamera.Sample3_1.Sample3_1Activity"
+            android:label="@string/app_name">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+
         <activity
             android:name="org.yanzi.playcamera.CameraActivity"
             android:label="@string/app_name"
@@ -30,6 +39,7 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+
     </application>
 
 </manifest>
