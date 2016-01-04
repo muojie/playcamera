@@ -1,10 +1,10 @@
-uniform mat4 uMVPMatrix; //×Ü±ä»»¾ØÕó
-attribute vec3 aPosition;  //¶¥µãÎ»ÖÃ
-attribute vec4 aColor;    //¶¥µãÑÕÉ«
-varying  vec4 vColor;  //ÓÃÓÚ´«µİ¸øÆ¬Ôª×ÅÉ«Æ÷µÄ±äÁ¿
+uniform mat4 uMVPMatrix;      //æ€»å˜æ¢çŸ©é˜µ
+attribute vec3 aPosition;     //é¡¶ç‚¹ä½ç½®
+attribute vec4 aColor;        //é¡¶ç‚¹é¢œè‰²
+varying  vec4 vColor;         //ç”¨äºä¼ é€’ç»™ç‰‡å…ƒç€è‰²å™¨çš„å˜é‡
 
 void main()     
 {                            		
-   gl_Position = uMVPMatrix * vec4(aPosition,1); //¸ù¾İ×Ü±ä»»¾ØÕó¼ÆËã´Ë´Î»æÖÆ´Ë¶¥µãÎ»ÖÃ
-   vColor = aColor;//½«½ÓÊÕµÄÑÕÉ«´«µİ¸øÆ¬Ôª×ÅÉ«Æ÷ 
+   gl_Position = uMVPMatrix * vec4(aPosition,1);   //æ ¹æ®æ€»å˜æ¢çŸ©é˜µè®¡ç®—æ­¤æ¬¡ç»˜åˆ¶æ­¤é¡¶ç‚¹ä½ç½®
+   vColor = aColor;                                //å°†æ¥æ”¶çš„é¢œè‰²ä¼ é€’ç»™ç‰‡å…ƒç€è‰²å™¨
 }                      

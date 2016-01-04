@@ -7,6 +7,7 @@ import org.yanzi.playcamera.R;
 import org.yanzi.playcamera.util.DisplayUtil;
 
 import android.app.Activity;
+import android.content.Context;
 import android.graphics.Point;
 import android.graphics.SurfaceTexture;
 import android.os.Bundle;
@@ -24,13 +25,18 @@ public class CameraActivity extends Activity {
 	CameraGLSurfaceView glSurfaceView = null;
 	ImageButton shutterBtn;
 	float previewRate = -1f;
+	private static Context sInstance;
+
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_camera);
+
+		setInstance(this);
+
 		initUI();
 		initViewParams();
-		
+
 		shutterBtn.setOnClickListener(new BtnListeners());
 	}
 
@@ -89,5 +95,15 @@ public class CameraActivity extends Activity {
 		glSurfaceView.onPause();
 	}
 
+	private void setInstance(Context context) {
+		sInstance = context;
+	}
 
+	/*	要理解这里声明为static的函义，就是为了让其它类能够通过CameraActivity这个类获得Context，
+	 *  而不需要实例化。
+	 *  另外，Context还可以在实例化其它对象的时候传入。比如new DirectDrawer(Context context)。
+	 */
+	public static Context getInstance() {
+		return sInstance;
+	}
 }

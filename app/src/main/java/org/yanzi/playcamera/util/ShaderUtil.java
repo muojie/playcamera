@@ -1,8 +1,12 @@
-package org.yanzi.playcamera.Sample3_1;
+package org.yanzi.playcamera.util;
 
+import java.io.BufferedReader;
 import java.io.ByteArrayOutputStream;
+import java.io.IOException;
 import java.io.InputStream;
+import java.io.InputStreamReader;
 
+import android.content.Context;
 import android.content.res.Resources;
 import android.opengl.GLES20;
 import android.util.Log;
@@ -11,6 +15,8 @@ import android.util.Log;
 //加载顶点Shader与片元Shader的工具类
 public class ShaderUtil
 {
+    private static String TAG = "ShaderUtil";
+
     //加载制定shader的方法
     public static int loadShader
     (
@@ -99,7 +105,12 @@ public class ShaderUtil
         }
     }
 
-    //从sh脚本中加载shader内容的方法
+    /* 从sh脚本中加载shader内容的方法
+     * assets文件有最大限制：UNCOMPRESS_DATA_MAX
+     * Resources需要从Activity.getResources()获得。
+     * 这里从View.getResources()获得，可能是因为创建View时传入了Context。
+     * 资源文件的获取可以参考：http://blog.sina.com.cn/s/blog_602f8770010142h9.html
+     */
     public static String loadFromAssetsFile(String fname,Resources r)
     {
         String result=null;
@@ -123,5 +134,25 @@ public class ShaderUtil
             e.printStackTrace();
         }
         return result;
+    }
+
+    /* getRecources()是Contex的方法，所以必须是在Contex或其子类中调用。
+     * Context的讲解可以参考http://www.cnblogs.com/wenjiang/archive/2012/10/15/2724923.html
+     */
+    public static String getShaderSource(Context context, int shaderSrc) {
+        StringBuilder mStringBuilder = new StringBuilder();
+        InputStreamReader isReader = new InputStreamReader(
+                context.getResources().openRawResource(shaderSrc));
+        BufferedReader mBufferedReader = new BufferedReader(isReader);
+
+        try {
+            for (String str = mBufferedReader.readLine(); str != null; str = mBufferedReader.readLine()) {
+                mStringBuilder.append(str).append("\n");
+            }
+        } catch (IOException e) {
+            Log.e(TAG, "read shader failed", e);
+        }
+        mStringBuilder.deleteCharAt(mStringBuilder.length() - 1);
+        return mStringBuilder.toString();
     }
 }

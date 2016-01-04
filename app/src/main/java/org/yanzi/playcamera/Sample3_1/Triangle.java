@@ -6,6 +6,8 @@ import java.nio.FloatBuffer;
 import android.opengl.GLES20;
 import android.opengl.Matrix;
 
+import org.yanzi.playcamera.util.ShaderUtil;
+
 //三角形
 public class Triangle
 {
