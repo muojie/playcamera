@@ -14,31 +14,10 @@ import org.yanzi.playcamera.R;
 import org.yanzi.playcamera.util.ShaderUtil;
 
 public class DirectDrawer {
-	private final String vertexShaderCode =
-            "attribute vec4 vPosition;" +
-            "attribute vec2 inputTextureCoordinate;" +
-            "varying vec2 textureCoordinate;" +
-            "void main()" +
-            "{"+
-                "gl_Position = vPosition;"+
-                "textureCoordinate = inputTextureCoordinate;" +
-            "}";
 
-    private final String fragmentShaderCode =
-            "#extension GL_OES_EGL_image_external : require\n"+
-            "precision mediump float;" +
-            "varying vec2 textureCoordinate;\n" +
-            "uniform samplerExternalOES s_texture;\n" +
-            "void main() {" +
-            "  gl_FragColor = texture2D( s_texture, textureCoordinate );\n" +
-            "}";
-
-    //texture2D
-    private FloatBuffer vertexBuffer, textureVerticesBuffer;
+    private FloatBuffer textureVerticesBuffer;
     private ShortBuffer drawListBuffer;
     private int mProgram;
-    private int mPositionHandle;
-    private int mTextureCoordHandle;
 
     private int muMVPMatrixHandle;
     private int muSTMatrixHandle;
@@ -46,11 +25,6 @@ public class DirectDrawer {
     private int maTextureHandle;
 
     private short drawOrder[] = { 0, 1, 2, 0, 2, 3 }; // order to draw vertices
-
-    // number of coordinates per vertex in this array
-    private static final int COORDS_PER_VERTEX = 2;
-
-    private final int vertexStride = COORDS_PER_VERTEX * 4; // 4 bytes per vertex
 
     private static final int FLOAT_SIZE_BYTES = 4;
     private static final int TRIANGLE_VERTICES_DATA_STRIDE_BYTES = 5 * FLOAT_SIZE_BYTES;
@@ -85,13 +59,6 @@ public class DirectDrawer {
             1.0f, 1.0f, 0,
     };
 
-    static float squareCoords[] = {
-       -1.0f,  1.0f,
-       -1.0f, -1.0f,
-        1.0f, -1.0f,
-        1.0f,  1.0f,
-    };
-
     static float textureVertices[] = {
         0.0f, 1.0f,
         1.0f, 1.0f,
@@ -104,12 +71,6 @@ public class DirectDrawer {
     public DirectDrawer(int texture)
     {
         this.texture = texture;
-        // initialize vertex byte buffer for shape coordinates
-        ByteBuffer bb = ByteBuffer.allocateDirect(squareCoords.length * 4);
-        bb.order(ByteOrder.nativeOrder());
-        vertexBuffer = bb.asFloatBuffer();
-        vertexBuffer.put(squareCoords);
-        vertexBuffer.position(0);
 
         // initialize byte buffer for the draw list
         ByteBuffer dlb = ByteBuffer.allocateDirect(drawOrder.length * 2);
@@ -124,6 +85,7 @@ public class DirectDrawer {
         textureVerticesBuffer.put(textureVertices);
         textureVerticesBuffer.position(0);
 
+        // initialize float buffer mTriangleVertices
         mTriangleVertices = ByteBuffer.allocateDirect(
                 mTriangleVerticesData.length * FLOAT_SIZE_BYTES)
                 .order(ByteOrder.nativeOrder()).asFloatBuffer();
@@ -134,36 +96,12 @@ public class DirectDrawer {
 
     public void draw(float[] mtx)
     {
-
         GLES20.glUseProgram(mProgram);
 
         GLES20.glActiveTexture(GLES20.GL_TEXTURE0);
         GLES20.glBindTexture(GLES11Ext.GL_TEXTURE_EXTERNAL_OES, texture);
-        /*
-        // get handle to vertex shader's vPosition member
-        mPositionHandle = GLES20.glGetAttribLocation(mProgram, "vPosition");
 
-        // Enable a handle to the triangle vertices
-        GLES20.glEnableVertexAttribArray(mPositionHandle);
-
-        // Prepare the <insert shape here> coordinate data
-        GLES20.glVertexAttribPointer(mPositionHandle, COORDS_PER_VERTEX, GLES20.GL_FLOAT, false, vertexStride, vertexBuffer);
-
-        mTextureCoordHandle = GLES20.glGetAttribLocation(mProgram, "inputTextureCoordinate");
-        GLES20.glEnableVertexAttribArray(mTextureCoordHandle);
-        
-        //textureVerticesBuffer.clear();
-        //textureVerticesBuffer.put( transformTextureCoordinates( textureVertices, mtx ));
-        //textureVerticesBuffer.position(0);
-        
-        GLES20.glVertexAttribPointer(mTextureCoordHandle, COORDS_PER_VERTEX, GLES20.GL_FLOAT, false, vertexStride, textureVerticesBuffer);
-        GLES20.glDrawElements(GLES20.GL_TRIANGLES, drawOrder.length, GLES20.GL_UNSIGNED_SHORT, drawListBuffer);
-
-        // Disable vertex array
-        GLES20.glDisableVertexAttribArray(mPositionHandle);
-        GLES20.glDisableVertexAttribArray(mTextureCoordHandle);
-        //*/
-        //*
+        //赋值给Attribute aPosition
         mTriangleVertices.position(TRIANGLE_VERTICES_DATA_POS_OFFSET);
         GLES20.glVertexAttribPointer(maPositionHandle, 3, GLES20.GL_FLOAT, false,
                 TRIANGLE_VERTICES_DATA_STRIDE_BYTES, mTriangleVertices);
@@ -171,12 +109,24 @@ public class DirectDrawer {
         GLES20.glEnableVertexAttribArray(maPositionHandle);
         ShaderUtil.checkGlError("glEnableVertexAttribArray maPositionHandle");
 
+        //赋值给Attribute aTextureCoord
         mTriangleVertices.position(TRIANGLE_VERTICES_DATA_UV_OFFSET);
         GLES20.glVertexAttribPointer(maTextureHandle, 3, GLES20.GL_FLOAT, false,
                 TRIANGLE_VERTICES_DATA_STRIDE_BYTES, mTriangleVertices);
+        //TODO: 旋转
+        /*
+        textureVerticesBuffer.clear();
+        textureVerticesBuffer.put(transformTextureCoordinates(textureVertices, mtx));
+        textureVerticesBuffer.position(0);
+        GLES20.glVertexAttribPointer(maTextureHandle, 2,
+                GLES20.GL_FLOAT, false, 2*4, textureVerticesBuffer);
+                */
         ShaderUtil.checkGlError("glVertexAttribPointer maTextureHandle");
         GLES20.glEnableVertexAttribArray(maTextureHandle);
         ShaderUtil.checkGlError("glEnableVertexAttribArray maTextureHandle");
+
+        //TODO: 画三角形
+        //GLES20.glDrawElements(GLES20.GL_TRIANGLES, drawOrder.length, GLES20.GL_UNSIGNED_SHORT, drawListBuffer);
 
         Matrix.setIdentityM(mMVPMatrix, 0);
         GLES20.glUniformMatrix4fv(muMVPMatrixHandle, 1, false, mMVPMatrix, 0);
@@ -185,7 +135,10 @@ public class DirectDrawer {
         GLES20.glBlendColor(1.0f, 0.0f, 0.0f, 1.0f);
         GLES20.glDrawArrays(GLES20.GL_TRIANGLE_STRIP, 0, 4);
         ShaderUtil.checkGlError("glDrawArrays");
-        //*/
+
+        // Disable vertex array
+        GLES20.glDisableVertexAttribArray(maPositionHandle);
+        GLES20.glDisableVertexAttribArray(maTextureHandle);
     }
 
     //初始化shader
@@ -196,24 +149,26 @@ public class DirectDrawer {
 
         mProgram = ShaderUtil.createProgram(vertexShader, fragmentShader);
 
+        //aPosition,aTextureCoord defined in file "vertext.sh", is attribute type.
+
         maPositionHandle = GLES20.glGetAttribLocation(mProgram, "aPosition");
         ShaderUtil.checkGlError("glGetAttribLocation aPosition");
         if (maPositionHandle == -1) {
             throw new RuntimeException("Could not get attrib location for aPosition");
         }
-
         maTextureHandle = GLES20.glGetAttribLocation(mProgram, "aTextureCoord");
         ShaderUtil.checkGlError("glGetAttribLocation aTextureCoord");
         if (maTextureHandle == -1) {
             throw new RuntimeException("Could not get attrib location for aTextureCoord");
         }
 
+        //uMVPMatrix, uSTMatrix is defined in file "vertext.sh", is uniform mat4 type.
+
         muMVPMatrixHandle = GLES20.glGetUniformLocation(mProgram, "uMVPMatrix");
         ShaderUtil.checkGlError("glGetUniformLocation uMVPMatrix");
         if (muMVPMatrixHandle == -1) {
             throw new RuntimeException("Could not get attrib location for uMVPMatrix");
         }
-
         muSTMatrixHandle = GLES20.glGetUniformLocation(mProgram, "uSTMatrix");
         ShaderUtil.checkGlError("glGetUniformLocation uSTMatrix");
         if (muSTMatrixHandle == -1) {

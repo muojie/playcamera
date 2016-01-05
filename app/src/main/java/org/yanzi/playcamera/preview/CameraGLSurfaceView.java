@@ -45,7 +45,7 @@ public class CameraGLSurfaceView extends GLSurfaceView implements Renderer, Surf
 		Log.i(TAG, "onSurfaceChanged...");
 		GLES20.glViewport(0, 0, width, height);
 		if(!CameraInterface.getInstance().isPreviewing()){
-			CameraInterface.getInstance().doStartPreview(mSurface, 1.33f);
+			CameraInterface.getInstance().doStartPreview(mSurface, 1.77f);
 		}
 	
 
@@ -53,7 +53,7 @@ public class CameraGLSurfaceView extends GLSurfaceView implements Renderer, Surf
 	@Override
 	public void onDrawFrame(GL10 gl) {
 		// TODO Auto-generated method stub
-		Log.i(TAG, "onDrawFrame...");
+		Log.v(TAG, "onDrawFrame...");
 		GLES20.glClearColor(0.0f, 0.0f, 0.0f, 1.0f);
 		GLES20.glClear(GLES20.GL_COLOR_BUFFER_BIT | GLES20.GL_DEPTH_BUFFER_BIT);
 
@@ -93,7 +93,7 @@ public class CameraGLSurfaceView extends GLSurfaceView implements Renderer, Surf
 	@Override
 	public void onFrameAvailable(SurfaceTexture surfaceTexture) {
 		// TODO Auto-generated method stub
-		Log.i(TAG, "onFrameAvailable...");
+		Log.v(TAG, "onFrameAvailable...");
 		this.requestRender();
 	}
 
