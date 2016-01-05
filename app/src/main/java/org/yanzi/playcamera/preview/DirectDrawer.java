@@ -139,7 +139,7 @@ public class DirectDrawer {
 
         GLES20.glActiveTexture(GLES20.GL_TEXTURE0);
         GLES20.glBindTexture(GLES11Ext.GL_TEXTURE_EXTERNAL_OES, texture);
-        //*
+        /*
         // get handle to vertex shader's vPosition member
         mPositionHandle = GLES20.glGetAttribLocation(mProgram, "vPosition");
 
@@ -163,20 +163,20 @@ public class DirectDrawer {
         GLES20.glDisableVertexAttribArray(mPositionHandle);
         GLES20.glDisableVertexAttribArray(mTextureCoordHandle);
         //*/
-/*
+        //*
         mTriangleVertices.position(TRIANGLE_VERTICES_DATA_POS_OFFSET);
         GLES20.glVertexAttribPointer(maPositionHandle, 3, GLES20.GL_FLOAT, false,
                 TRIANGLE_VERTICES_DATA_STRIDE_BYTES, mTriangleVertices);
-        //checkGlError("glVertexAttribPointer maPosition");
+        ShaderUtil.checkGlError("glVertexAttribPointer maPosition");
         GLES20.glEnableVertexAttribArray(maPositionHandle);
-        //checkGlError("glEnableVertexAttribArray maPositionHandle");
+        ShaderUtil.checkGlError("glEnableVertexAttribArray maPositionHandle");
 
         mTriangleVertices.position(TRIANGLE_VERTICES_DATA_UV_OFFSET);
         GLES20.glVertexAttribPointer(maTextureHandle, 3, GLES20.GL_FLOAT, false,
                 TRIANGLE_VERTICES_DATA_STRIDE_BYTES, mTriangleVertices);
-        //checkGlError("glVertexAttribPointer maTextureHandle");
+        ShaderUtil.checkGlError("glVertexAttribPointer maTextureHandle");
         GLES20.glEnableVertexAttribArray(maTextureHandle);
-        //checkGlError("glEnableVertexAttribArray maTextureHandle");
+        ShaderUtil.checkGlError("glEnableVertexAttribArray maTextureHandle");
 
         Matrix.setIdentityM(mMVPMatrix, 0);
         GLES20.glUniformMatrix4fv(muMVPMatrixHandle, 1, false, mMVPMatrix, 0);
@@ -184,48 +184,41 @@ public class DirectDrawer {
 
         GLES20.glBlendColor(1.0f, 0.0f, 0.0f, 1.0f);
         GLES20.glDrawArrays(GLES20.GL_TRIANGLE_STRIP, 0, 4);
-        //checkGlError("glDrawArrays");
-        */
+        ShaderUtil.checkGlError("glDrawArrays");
+        //*/
     }
 
     //≥ı ºªØshader
     public void initShader() {
 
-        String fragmentShader = ShaderUtil.getShaderSource(CameraActivity.getInstance(),R.raw.sample_frag);
-        String vertexShader = ShaderUtil.getShaderSource(CameraActivity.getInstance(), R.raw.sample_vertext);
+        String fragmentShader = ShaderUtil.getShaderSource(CameraActivity.getInstance(),R.raw.lomo_frag);
+        String vertexShader = ShaderUtil.getShaderSource(CameraActivity.getInstance(), R.raw.camera_vertex);
 
         mProgram = ShaderUtil.createProgram(vertexShader, fragmentShader);
 
         maPositionHandle = GLES20.glGetAttribLocation(mProgram, "aPosition");
-        /*
-        checkGlError("glGetAttribLocation aPosition");
+        ShaderUtil.checkGlError("glGetAttribLocation aPosition");
         if (maPositionHandle == -1) {
             throw new RuntimeException("Could not get attrib location for aPosition");
-        }*/
+        }
+
         maTextureHandle = GLES20.glGetAttribLocation(mProgram, "aTextureCoord");
-        /*
-        checkGlError("glGetAttribLocation aTextureCoord");
+        ShaderUtil.checkGlError("glGetAttribLocation aTextureCoord");
         if (maTextureHandle == -1) {
             throw new RuntimeException("Could not get attrib location for aTextureCoord");
         }
-        */
 
         muMVPMatrixHandle = GLES20.glGetUniformLocation(mProgram, "uMVPMatrix");
-        /*
-        checkGlError("glGetUniformLocation uMVPMatrix");
+        ShaderUtil.checkGlError("glGetUniformLocation uMVPMatrix");
         if (muMVPMatrixHandle == -1) {
             throw new RuntimeException("Could not get attrib location for uMVPMatrix");
         }
-        */
 
         muSTMatrixHandle = GLES20.glGetUniformLocation(mProgram, "uSTMatrix");
-        /*
-        checkGlError("glGetUniformLocation uSTMatrix");
+        ShaderUtil.checkGlError("glGetUniformLocation uSTMatrix");
         if (muSTMatrixHandle == -1) {
             throw new RuntimeException("Could not get attrib location for uSTMatrix");
         }
-        */
-
     }
 
     private float[] transformTextureCoordinates( float[] coords, float[] matrix)
