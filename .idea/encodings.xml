@@ -1,8 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="Encoding">
-    <file url="file://$PROJECT_DIR$/app/src/main/java/org/yanzi/playcamera/CameraActivity.java" charset="GBK" />
-    <file url="file://$PROJECT_DIR$/app/src/main/java/org/yanzi/playcamera/CameraInterface.java" charset="GBK" />
+    <file url="file://$PROJECT_DIR$/app/src/main/java/org/yanzi/playcamera/CameraActivity.java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/app/src/main/java/org/yanzi/playcamera/CameraInterface.java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/app/src/main/java/org/yanzi/playcamera/Sample/util/Constant.java" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/app/src/main/java/org/yanzi/playcamera/preview/CameraGLSurfaceView.java" charset="GBK" />
     <file url="file://$PROJECT_DIR$/app/src/main/java/org/yanzi/playcamera/preview/DirectDrawer.java" charset="GBK" />
     <file url="file://$PROJECT_DIR$/app/src/main/java/org/yanzi/playcamera/util/CamParaUtil.java" charset="GBK" />
@@ -10,10 +11,9 @@
     <file url="file://$PROJECT_DIR$/app/src/main/java/org/yanzi/playcamera/util/FileUtil.java" charset="GBK" />
     <file url="file://$PROJECT_DIR$/app/src/main/java/org/yanzi/playcamera/util/ImageUtil.java" charset="GBK" />
     <file url="file://$PROJECT_DIR$/app/src/main/res/drawable-hdpi" charset="GBK" />
-    <file url="file://$PROJECT_DIR$/app/src/main/res/drawable-ldpi" charset="GBK" />
     <file url="file://$PROJECT_DIR$/app/src/main/res/drawable-mdpi" charset="GBK" />
     <file url="file://$PROJECT_DIR$/app/src/main/res/drawable-xhdpi" charset="GBK" />
     <file url="file://$PROJECT_DIR$/app/src/main/res/drawable-xxhdpi" charset="GBK" />
-    <file url="PROJECT" charset="UTF-8" />
+    <file url="PROJECT" charset="GBK" />
   </component>
 </project>

@@ -8,6 +8,8 @@ import android.opengl.GLES20;
 import android.opengl.GLSurfaceView;
 import android.opengl.Matrix;
 
+import org.yanzi.playcamera.Sample.object.Triangle;
+
 public class MyTDView extends GLSurfaceView
 {
 	final float ANGLE_SPAN = 0.375f;

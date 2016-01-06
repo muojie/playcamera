@@ -1,4 +1,5 @@
 package org.yanzi.playcamera.Sample.Sample5_5;
+
 import android.app.Activity;
 import android.content.pm.ActivityInfo;
 import android.os.Bundle;
@@ -7,33 +8,33 @@ import android.view.WindowManager;
 
 public class Sample5_5_Activity extends Activity {
 	private MySurfaceView mGLSurfaceView;
-    @Override
+	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		// ����Ϊȫ��
+		// 设置为全屏
 		requestWindowFeature(Window.FEATURE_NO_TITLE);
 		getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,
 				WindowManager.LayoutParams.FLAG_FULLSCREEN);
-		// ����Ϊ����ģʽ
+		// 设置为横屏模式
 		setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE);
-		// ��ʼ��GLSurfaceView
+		// 初始化GLSurfaceView
 		mGLSurfaceView = new MySurfaceView(this);
-		// �л���������
+		// 切换到主界面
 		setContentView(mGLSurfaceView);
-		mGLSurfaceView.requestFocus();// ��ȡ����
-		mGLSurfaceView.setFocusableInTouchMode(true);// ����Ϊ�ɴ���
+		mGLSurfaceView.requestFocus();// 获取焦点
+		mGLSurfaceView.setFocusableInTouchMode(true);// 设置为可触控
 
 	}
 
-    @Override
-    protected void onResume() {
-        super.onResume();
-        mGLSurfaceView.onResume();
-    }
+	@Override
+	protected void onResume() {
+		super.onResume();
+		mGLSurfaceView.onResume();
+	}
 
-    @Override
-    protected void onPause() {
-        super.onPause();
-        mGLSurfaceView.onPause(); 
-    } 
+	@Override
+	protected void onPause() {
+		super.onPause();
+		mGLSurfaceView.onPause();
+	}
 }

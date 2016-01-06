@@ -1,66 +1,71 @@
 package org.yanzi.playcamera.Sample.Sample5_5;
+
 import javax.microedition.khronos.egl.EGLConfig;
 import javax.microedition.khronos.opengles.GL10;
 import android.content.Context;
 import android.opengl.GLES20;
 import android.opengl.GLSurfaceView;
 
-class MySurfaceView extends GLSurfaceView 
+import org.yanzi.playcamera.Sample.object.ColorCube;
+import org.yanzi.playcamera.Sample.util.Constant;
+import org.yanzi.playcamera.Sample.util.MatrixState;
+
+class MySurfaceView extends GLSurfaceView
 {
-    private SceneRenderer mRenderer;//������Ⱦ��
-	public MySurfaceView(Context context) {
+    private SceneRenderer mRenderer;//场景渲染器
+    public MySurfaceView(Context context) {
         super(context);
-        this.setEGLContextClientVersion(2); //����ʹ��OPENGL ES2.0
-        mRenderer = new SceneRenderer();	//����������Ⱦ��
-        setRenderer(mRenderer);				//������Ⱦ��		        
-        setRenderMode(GLSurfaceView.RENDERMODE_CONTINUOUSLY);//������ȾģʽΪ������Ⱦ   
+        this.setEGLContextClientVersion(2); //设置使用OPENGL ES2.0
+        mRenderer = new SceneRenderer();	//创建场景渲染器
+        setRenderer(mRenderer);				//设置渲染器		        
+        setRenderMode(GLSurfaceView.RENDERMODE_CONTINUOUSLY);//设置渲染模式为主动渲染   
     }
 
-	private class SceneRenderer implements Renderer
-    {   
-    	Cube cube;//������
-    	
-        public void onDrawFrame(GL10 gl) 
-        { 
-        	//�����Ȼ�������ɫ����
+    private class SceneRenderer implements GLSurfaceView.Renderer
+    {
+        ColorCube cube;//立方体
+
+        public void onDrawFrame(GL10 gl)
+        {
+            //清除深度缓冲与颜色缓冲
             GLES20.glClear( GLES20.GL_DEPTH_BUFFER_BIT | GLES20.GL_COLOR_BUFFER_BIT);
-            //����ԭ������
+            //绘制原立方体
             MatrixState.pushMatrix();
-            cube.drawSelf();    
+            cube.drawSelf();
             MatrixState.popMatrix();
-            
-            //���Ʊ任���������
+
+            //绘制变换后的立方体
             MatrixState.pushMatrix();
-            MatrixState.translate(4, 0, 0);//��x����ƽ��3
-            MatrixState.rotate(30, 0, 0, 1);// ��z����ת30��
-            MatrixState.scale(0.4f, 2f, 0.6f);//xyz������򰴸��Ե��������ӽ�������
-            cube.drawSelf();    
+            MatrixState.translate(4, 0, 0);//沿x方向平移3
+            MatrixState.rotate(30, 0, 0, 1);// 绕z轴旋转30度
+            MatrixState.scale(0.4f, 2f, 0.6f);//xyz三个方向按各自的缩放因子进行缩放
+            cube.drawSelf();
             MatrixState.popMatrix();
-        }  
+        }
 
         public void onSurfaceChanged(GL10 gl, int width, int height) {
-            //�����Ӵ���С��λ�� 
-        	GLES20.glViewport(0, 0, width, height); 
-        	//����GLSurfaceView�Ŀ�߱�
+            //设置视窗大小及位置 
+            GLES20.glViewport(0, 0, width, height);
+            //计算GLSurfaceView的宽高比
             Constant.ratio = (float) width / height;
-			// ���ô˷����������͸��ͶӰ����
+            // 调用此方法计算产生透视投影矩阵
             MatrixState.setProjectFrustum(-Constant.ratio*0.8f, Constant.ratio*1.2f, -1, 1, 20, 100);
-			// ���ô˷������������9����λ�þ���
-			MatrixState.setCamera(-16f, 8f, 45, 0f, 0f, 0f, 0f, 1.0f, 0.0f);
-            
-            //��ʼ���任����
+            // 调用此方法产生摄像机9参数位置矩阵
+            MatrixState.setCamera(-16f, 8f, 45, 0f, 0f, 0f, 0f, 1.0f, 0.0f);
+
+            //初始化变换矩阵
             MatrixState.setInitStack();
         }
 
         public void onSurfaceCreated(GL10 gl, EGLConfig config) {
-            //������Ļ����ɫRGBA
-            GLES20.glClearColor(0.5f,0.5f,0.5f, 1.0f);  
-            //�������������
-            cube=new Cube(MySurfaceView.this);
-            //����ȼ��
+            //设置屏幕背景色RGBA
+            GLES20.glClearColor(0.5f,0.5f,0.5f, 1.0f);
+            //创建立方体对象
+            cube=new ColorCube(MySurfaceView.this);
+            //打开深度检测
             GLES20.glEnable(GLES20.GL_DEPTH_TEST);
-            //�򿪱������   
-            GLES20.glEnable(GLES20.GL_CULL_FACE);  
+            //打开背面剪裁   
+            GLES20.glEnable(GLES20.GL_CULL_FACE);
         }
     }
 }

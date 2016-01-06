@@ -9,57 +9,59 @@ import android.widget.LinearLayout;
 import android.widget.ToggleButton;
 import android.widget.CompoundButton.OnCheckedChangeListener;
 import org.yanzi.playcamera.R;
-import static org.yanzi.playcamera.Sample.Sample5_10.Constant.*;
+import org.yanzi.playcamera.Sample.util.MatrixState;
+
+import static org.yanzi.playcamera.Sample.util.Constant.*;
 
 public class Sample5_10_Activity extends Activity {
-	private MySurfaceView mGLSurfaceView;
+    private MySurfaceView mGLSurfaceView;
     @Override
-    protected void onCreate(Bundle savedInstanceState) 
+    protected void onCreate(Bundle savedInstanceState)
     {
-    	 super.onCreate(savedInstanceState);         
-         //����Ϊȫ��
-         requestWindowFeature(Window.FEATURE_NO_TITLE); 
- 		getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN ,  
- 		              WindowManager.LayoutParams.FLAG_FULLSCREEN);
- 		//����Ϊ����ģʽ
- 		setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE);
- 		//�л���������
- 		setContentView(R.layout.sample_5_10);
- 		//��ʼ��GLSurfaceView
-         mGLSurfaceView = new MySurfaceView(this);
-         mGLSurfaceView.requestFocus();//��ȡ����
-         mGLSurfaceView.setFocusableInTouchMode(true);//����Ϊ�ɴ���  
-         //���Զ����GLSurfaceView��ӵ����LinearLayout��
-         LinearLayout ll=(LinearLayout)findViewById(R.id.main_liner); 
-         ll.addView(mGLSurfaceView);        
-         //�����Ƿ�򿪱�����õ�ToggleButton
-         ToggleButton tb=(ToggleButton)this.findViewById(R.id.ToggleButton01);
-         tb.setOnCheckedChangeListener(
-             new OnCheckedChangeListener()
-             {
- 	 			@Override
- 	 			public void onCheckedChanged(CompoundButton buttonView,boolean isChecked) 
- 	 			{
- 	 				if(isChecked)
- 	 				{
- 	 				    //�ӽǲ����ʵ��±���
- 	 		            //���ô˷����������͸��ͶӰ����
- 	 		            MatrixState.setProjectFrustum(-ratio*0.7f, ratio*0.7f, -0.7f, 0.7f, 1, 10);
- 	 		            //���ô˷������������9����λ�þ���
- 	 		            MatrixState.setCamera(0,0.5f,4,0f,0f,0f,0f,1.0f,0.0f);
- 	 				}
- 	 				else
- 	 				{
-	 	 	             //�ӽǺ��ʲ�����
-	 	 	             //���ô˷����������͸��ͶӰ����
-	 	 	             MatrixState.setProjectFrustum(-ratio, ratio, -1, 1, 20, 100);
-	 	 	             //���ô˷������������9����λ�þ���
-	 	 	             MatrixState.setCamera(0,8f,45,0f,0f,0f,0f,1.0f,0.0f);
- 	 				}
- 	 			}        	   
-             }        
-         );        
-         
+        super.onCreate(savedInstanceState);
+        //设置为全屏
+        requestWindowFeature(Window.FEATURE_NO_TITLE);
+        getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN ,
+                WindowManager.LayoutParams.FLAG_FULLSCREEN);
+        //设置为横屏模式
+        setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE);
+        //切换到主界面
+        setContentView(R.layout.sample_5_10);
+        //初始化GLSurfaceView
+        mGLSurfaceView = new MySurfaceView(this);
+        mGLSurfaceView.requestFocus();//获取焦点
+        mGLSurfaceView.setFocusableInTouchMode(true);//设置为可触控
+        //将自定义的GLSurfaceView添加到外层LinearLayout中
+        LinearLayout ll=(LinearLayout)findViewById(R.id.main_liner);
+        ll.addView(mGLSurfaceView);
+        //控制是否打开背面剪裁的ToggleButton
+        ToggleButton tb=(ToggleButton)this.findViewById(R.id.ToggleButton01);
+        tb.setOnCheckedChangeListener(
+                new OnCheckedChangeListener()
+                {
+                    @Override
+                    public void onCheckedChanged(CompoundButton buttonView,boolean isChecked)
+                    {
+                        if(isChecked)
+                        {
+                            //视角不合适导致变形
+                            //调用此方法计算产生透视投影矩阵
+                            MatrixState.setProjectFrustum(-ratio * 0.7f, ratio * 0.7f, -0.7f, 0.7f, 1, 10);
+                            //调用此方法产生摄像机9参数位置矩阵
+                            MatrixState.setCamera(0,0.5f,4,0f,0f,0f,0f,1.0f,0.0f);
+                        }
+                        else
+                        {
+                            //视角合适不变形
+                            //调用此方法计算产生透视投影矩阵
+                            MatrixState.setProjectFrustum(-ratio, ratio, -1, 1, 20, 100);
+                            //调用此方法产生摄像机9参数位置矩阵
+                            MatrixState.setCamera(0,8f,45,0f,0f,0f,0f,1.0f,0.0f);
+                        }
+                    }
+                }
+        );
+
     }
 
     @Override
@@ -71,6 +73,6 @@ public class Sample5_10_Activity extends Activity {
     @Override
     protected void onPause() {
         super.onPause();
-        mGLSurfaceView.onPause(); 
-    } 
+        mGLSurfaceView.onPause();
+    }
 }

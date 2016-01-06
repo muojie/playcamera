@@ -1,9 +1,10 @@
-package org.yanzi.playcamera.Sample.Sample3_1;
+package org.yanzi.playcamera.Sample.object;
 
 import java.nio.ByteBuffer;
 import java.nio.ByteOrder;
 import java.nio.FloatBuffer;
 import android.opengl.GLES20;
+import android.opengl.GLSurfaceView;
 import android.opengl.Matrix;
 
 import org.yanzi.playcamera.util.ShaderUtil;
@@ -26,8 +27,8 @@ public class Triangle
     FloatBuffer   mVertexBuffer;//顶点坐标数据缓冲
     FloatBuffer   mColorBuffer;//顶点着色数据缓冲
     int vCount=0;
-    float xAngle=0;//绕x轴旋转的角度
-    public Triangle(MyTDView mv)
+    public float xAngle=0;//绕x轴旋转的角度
+    public Triangle(GLSurfaceView mv)
     {
         //初始化顶点坐标与着色数据
         initVertexData();
@@ -68,7 +69,7 @@ public class Triangle
     }
 
     //初始化shader
-    public void initShader(MyTDView mv)
+    public void initShader(GLSurfaceView mv)
     {
         //加载顶点着色器的脚本内容
         mVertexShader=ShaderUtil.loadFromAssetsFile("vertex.sh", mv.getResources());

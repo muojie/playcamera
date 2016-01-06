@@ -56,10 +56,10 @@ public class CameraActivity extends Activity {
 		Point p = DisplayUtil.getScreenMetrics(this);
 		params.width = p.x;
 		params.height = p.y;
-		previewRate = DisplayUtil.getScreenRate(this); //Ä¬ÈÏÈ«ÆÁµÄ±ÈÀıÔ¤ÀÀ
+		previewRate = DisplayUtil.getScreenRate(this); //é»˜è®¤å…¨å±çš„æ¯”ä¾‹é¢„è§ˆ
 		glSurfaceView.setLayoutParams(params);
 
-		//ÊÖ¶¯ÉèÖÃÅÄÕÕImageButtonµÄ´óĞ¡Îª120dip¡Á120dip,Ô­Í¼Æ¬´óĞ¡ÊÇ64¡Á64
+		//æ‰‹åŠ¨è®¾ç½®æ‹ç…§ImageButtonçš„å¤§å°ä¸º120dipÃ—120dip,åŸå›¾ç‰‡å¤§å°æ˜¯64Ã—64
 		LayoutParams p2 = shutterBtn.getLayoutParams();
 		p2.width = DisplayUtil.dip2px(this, 80);
 		p2.height = DisplayUtil.dip2px(this, 80);
@@ -99,9 +99,9 @@ public class CameraActivity extends Activity {
 		sInstance = context;
 	}
 
-	/*	ÒªÀí½âÕâÀïÉùÃ÷ÎªstaticµÄº¯Òå£¬¾ÍÊÇÎªÁËÈÃÆäËüÀàÄÜ¹»Í¨¹ıCameraActivityÕâ¸öÀà»ñµÃContext£¬
-	 *  ¶ø²»ĞèÒªÊµÀı»¯¡£
-	 *  ÁíÍâ£¬Context»¹¿ÉÒÔÔÚÊµÀı»¯ÆäËü¶ÔÏóµÄÊ±ºò´«Èë¡£±ÈÈçnew DirectDrawer(Context context)¡£
+	/*	è¦ç†è§£è¿™é‡Œå£°æ˜ä¸ºstaticçš„å‡½ä¹‰ï¼Œå°±æ˜¯ä¸ºäº†è®©å…¶å®ƒç±»èƒ½å¤Ÿé€šè¿‡CameraActivityè¿™ä¸ªç±»è·å¾—Contextï¼Œ
+	 *  è€Œä¸éœ€è¦å®ä¾‹åŒ–ã€‚
+	 *  å¦å¤–ï¼ŒContextè¿˜å¯ä»¥åœ¨å®ä¾‹åŒ–å…¶å®ƒå¯¹è±¡çš„æ—¶å€™ä¼ å…¥ã€‚æ¯”å¦‚new DirectDrawer(Context context)ã€‚
 	 */
 	public static Context getInstance() {
 		return sInstance;
