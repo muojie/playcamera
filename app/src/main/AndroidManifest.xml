@@ -48,13 +48,19 @@
             android:name=".Sample.Sample3_1.Sample3_1Activity">
         </activity>
         <activity
-            android:name=".Sample.Sample5_5.Sample5_5_Activity">
+            android:name=".Sample.Sample5.Sample5_1.Sample5_1_Activity">
         </activity>
         <activity
-            android:name=".Sample.Sample5_9.Sample5_9_Activity">
+            android:name=".Sample.Sample5.Sample5_2.Sample5_2_Activity">
         </activity>
         <activity
-            android:name=".Sample.Sample5_10.Sample5_10_Activity">
+            android:name=".Sample.Sample5.Sample5_5.Sample5_5_Activity">
+        </activity>
+        <activity
+            android:name=".Sample.Sample5.Sample5_9.Sample5_9_Activity">
+        </activity>
+        <activity
+            android:name=".Sample.Sample5.Sample5_10.Sample5_10_Activity">
         </activity>
     </application>
 

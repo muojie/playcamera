@@ -1,6 +1,5 @@
 package org.yanzi.playcamera.Sample;
 
-import android.app.Activity;
 import android.app.ListActivity;
 import android.content.ContentValues;
 import android.content.Context;
@@ -21,20 +20,24 @@ import android.widget.SimpleCursorAdapter;
 import org.yanzi.playcamera.CameraActivity;
 import org.yanzi.playcamera.R;
 import org.yanzi.playcamera.Sample.Sample3_1.Sample3_1Activity;
-import org.yanzi.playcamera.Sample.Sample5_10.Sample5_10_Activity;
-import org.yanzi.playcamera.Sample.Sample5_5.Sample5_5_Activity;
-import org.yanzi.playcamera.Sample.Sample5_9.Sample5_9_Activity;
+import org.yanzi.playcamera.Sample.Sample5.Sample5_1.Sample5_1_Activity;
+import org.yanzi.playcamera.Sample.Sample5.Sample5_10.Sample5_10_Activity;
+import org.yanzi.playcamera.Sample.Sample5.Sample5_2.Sample5_2_Activity;
+import org.yanzi.playcamera.Sample.Sample5.Sample5_5.Sample5_5_Activity;
+import org.yanzi.playcamera.Sample.Sample5.Sample5_9.Sample5_9_Activity;
 
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
-//ListAcitvity²Î¿¼£ºhttp://www.cnblogs.com/wservices/archive/2010/06/17/1759793.html
+//ListAcitvityå‚è€ƒï¼šhttp://www.cnblogs.com/wservices/archive/2010/06/17/1759793.html
 public class SampleActivity extends ListActivity {
 
     private String []activityName = new String[] {
             "CameraGL",
             "Sample3_1",
+            "Sample5_1",
+            "Sample5_2",
             "Sample5_5",
             "Sample5_9",
             "Sample5_10",
@@ -42,8 +45,10 @@ public class SampleActivity extends ListActivity {
 
     private String []activityDes = new String[] {
             "Main Activity",
-            "Sample3_1",
-            "Sample5_5",
+            "åˆè­˜OpenGL ES 2.0ï¼Œæ—‹è½‰ä¸‰è§’å½¢ã€‚",
+            "æ¼”ç¤ºï¼šæ­£äº¤æŠ•å½±ã€‚Matrix.orthoM(ï¼‰",
+            "æ¼”ç¤ºï¼šé€è¦–æŠ•å½±ã€‚Matrix.frustumM(ï¼‰",
+            "3ç§åŸºæœ¬å˜æ¢ï¼šå¹³ç§»ã€æ—‹è½¬ã€ç¼©æ”¾",
             "Sample5_9",
             "Sample5_10",
     };
@@ -51,6 +56,8 @@ public class SampleActivity extends ListActivity {
     private Class []activityClass = new Class[] {
             CameraActivity.class,
             Sample3_1Activity.class,
+            Sample5_1_Activity.class,
+            Sample5_2_Activity.class,
             Sample5_5_Activity.class,
             Sample5_9_Activity.class,
             Sample5_10_Activity.class,
@@ -61,7 +68,7 @@ public class SampleActivity extends ListActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_sample);
 
-        //ListView²Î¿¼ £º
+        //ListViewå‚è€ƒ ï¼š
         // http://blog.csdn.net/hellohm/article/details/12356649
         // http://www.cnblogs.com/allin/archive/2010/05/11/1732200.html
 
@@ -73,12 +80,12 @@ public class SampleActivity extends ListActivity {
     private void useArrayAdapter() {
         String[] data = { "Item 1", "Item 2", "Item 3", "Item 4", "Item 5" };
 
-        // °ó¶¨XMLÖĞµÄListView£¬×÷ÎªdataµÄÈİÆ÷
+        // ç»‘å®šXMLä¸­çš„ListViewï¼Œä½œä¸ºdataçš„å®¹å™¨
         ListView listView = getListView();
 
         ArrayAdapter<String> arrayAdapter = new ArrayAdapter<String>(this, R.layout.list_item, data);
 
-    	/*Android¹Ù·½Ìá¹©µÄListItemµÄLayout
+    	/*Androidå®˜æ–¹æä¾›çš„ListItemçš„Layout
 	     * ArrayAdapter<String> arrayAdapter = new ArrayAdapter<String>(this,
     	 * android.R.layout.simple_list_item_1, data);
     	 */
@@ -87,12 +94,12 @@ public class SampleActivity extends ListActivity {
     }
 
     private void useSimpleAdapter() {
-        // Í¼Æ¬×ÊÔ´µÄID
+        // å›¾ç‰‡èµ„æºçš„ID
         int[] images = new int[] { R.drawable.item_img_a,
                 R.drawable.item_img_a, R.drawable.item_img_a,
                 R.drawable.item_img_a, R.drawable.item_img_a };
 
-        // ´´½¨¶¯Ì¬Êı×éÊı¾İÔ´
+        // åˆ›å»ºåŠ¨æ€æ•°ç»„æ•°æ®æº
         List<HashMap<String, Object>> data = new ArrayList<HashMap<String, Object>>();
         for (int i = 0; i < activityClass.length; i++) {
             HashMap<String, Object> map = new HashMap<String, Object>();
@@ -102,36 +109,36 @@ public class SampleActivity extends ListActivity {
             data.add(map);
         }
 
-        // °ó¶¨XMLÖĞµÄListView£¬×÷ÎªListItemµÄÈİÆ÷
-        ListView listView = getListView();      //ÔÚListActivityÖĞÊ¹ÓÃ¸Ãº¯Êı£¬¶ø²»ÊÇfindViewById()
+        // ç»‘å®šXMLä¸­çš„ListViewï¼Œä½œä¸ºListItemçš„å®¹å™¨
+        ListView listView = getListView();      //åœ¨ListActivityä¸­ä½¿ç”¨è¯¥å‡½æ•°ï¼Œè€Œä¸æ˜¯findViewById()
 
-        // ¶¯Ì¬Êı×éÊı¾İÔ´ÖĞÓëListItemÖĞÃ¿¸öÏÔÊ¾Ïî¶ÔÓ¦µÄKey
+        // åŠ¨æ€æ•°ç»„æ•°æ®æºä¸­ä¸ListItemä¸­æ¯ä¸ªæ˜¾ç¤ºé¡¹å¯¹åº”çš„Key
         String[] from = new String[] { "ItemImage", "ItemTitle", "ItemText" };
-        // ListItemµÄXMLÎÄ¼şÀïÃæµÄÒ»¸öImageView IDºÍÁ½¸öTextView ID
+        // ListItemçš„XMLæ–‡ä»¶é‡Œé¢çš„ä¸€ä¸ªImageView IDå’Œä¸¤ä¸ªTextView ID
         int[] to = new int[] { R.id.ItemImage, R.id.ItemTitle, R.id.ItemText };
 
-        // ½«¶¯Ì¬Êı×éÊı¾İÔ´dataÖĞµÄÊı¾İÌî³äµ½ListItemµÄXMLÎÄ¼şlist_item.xmlÖĞÈ¥
-        // ´Ó¶¯Ì¬Êı×éÊı¾İÔ´dataÖĞ£¬È¡³öfromÊı×éÖĞkey¶ÔÓ¦µÄvalueÖµ£¬Ìî³äµ½toÊı×éÖĞ¶ÔÓ¦IDµÄ¿Ø¼şÖĞÈ¥
+        // å°†åŠ¨æ€æ•°ç»„æ•°æ®æºdataä¸­çš„æ•°æ®å¡«å……åˆ°ListItemçš„XMLæ–‡ä»¶list_item.xmlä¸­å»
+        // ä»åŠ¨æ€æ•°ç»„æ•°æ®æºdataä¸­ï¼Œå–å‡ºfromæ•°ç»„ä¸­keyå¯¹åº”çš„valueå€¼ï¼Œå¡«å……åˆ°toæ•°ç»„ä¸­å¯¹åº”IDçš„æ§ä»¶ä¸­å»
         SimpleAdapter adapter = new SimpleAdapter(this, data, R.layout.list_item_simple_adapter, from, to);
         listView.setAdapter(adapter);
     }
 
     private void useSimpleCursorAdapter() {
         DBHelper dbHelper = new DBHelper(this);
-        // ÏòÊı¾İ¿âÖĞ²åÈëÊı¾İ
+        // å‘æ•°æ®åº“ä¸­æ’å…¥æ•°æ®
         insertDataIntoDB(dbHelper);
         Cursor cursor = dbHelper.query();
 
-        // °ó¶¨XMLÖĞµÄListView£¬×÷ÎªItemµÄÈİÆ÷
+        // ç»‘å®šXMLä¸­çš„ListViewï¼Œä½œä¸ºItemçš„å®¹å™¨
         ListView listView = getListView();
 
-        // Êı¾İ¿âÖĞÓëListItemÖĞÃ¿¸öÏÔÊ¾Ïî¶ÔÓ¦µÄcolumn
+        // æ•°æ®åº“ä¸­ä¸ListItemä¸­æ¯ä¸ªæ˜¾ç¤ºé¡¹å¯¹åº”çš„column
         String[] from = new String[] { "ItemImage", "ItemTitle", "ItemText" };
-        // ListItemµÄXMLÎÄ¼şÀïÃæµÄÒ»¸öImageView IDºÍÁ½¸öTextView ID
+        // ListItemçš„XMLæ–‡ä»¶é‡Œé¢çš„ä¸€ä¸ªImageView IDå’Œä¸¤ä¸ªTextView ID
         int[] to = new int[] { R.id.ItemImage, R.id.ItemTitle, R.id.ItemText };
 
-        // ½«Êı¾İ¿âÖĞÊı¾İÌî³äµ½ListItemµÄXMLÎÄ¼şlist_item.xmlÖĞÈ¥
-        // ´ÓÊı¾İ¿âÖĞÈ¡³öfromÊı×éÖĞcolumn¶ÔÓ¦µÄÖµ£¬Ìî³äµ½toÊı×éÖĞ¶ÔÓ¦IDµÄ¿Ø¼şÖĞÈ¥
+        // å°†æ•°æ®åº“ä¸­æ•°æ®å¡«å……åˆ°ListItemçš„XMLæ–‡ä»¶list_item.xmlä¸­å»
+        // ä»æ•°æ®åº“ä¸­å–å‡ºfromæ•°ç»„ä¸­columnå¯¹åº”çš„å€¼ï¼Œå¡«å……åˆ°toæ•°ç»„ä¸­å¯¹åº”IDçš„æ§ä»¶ä¸­å»
         SimpleCursorAdapter adapter = new SimpleCursorAdapter(this,
                 R.layout.list_item_simple_adapter, cursor, from, to,
                 android.widget.CursorAdapter.FLAG_REGISTER_CONTENT_OBSERVER);
@@ -140,7 +147,7 @@ public class SampleActivity extends ListActivity {
 
     private void insertDataIntoDB(DBHelper dbHelper) {
         dbHelper.clear();
-        // Í¼Æ¬×ÊÔ´µÄID
+        // å›¾ç‰‡èµ„æºçš„ID
         int[] images = new int[] { R.drawable.item_img_a,
                 R.drawable.item_img_a, R.drawable.item_img_a,
                 R.drawable.item_img_a, R.drawable.item_img_a };

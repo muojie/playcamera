@@ -3,6 +3,7 @@
   <component name="Encoding">
     <file url="file://$PROJECT_DIR$/app/src/main/java/org/yanzi/playcamera/CameraActivity.java" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/app/src/main/java/org/yanzi/playcamera/CameraInterface.java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/app/src/main/java/org/yanzi/playcamera/Sample/SampleActivity.java" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/app/src/main/java/org/yanzi/playcamera/Sample/util/Constant.java" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/app/src/main/java/org/yanzi/playcamera/preview/CameraGLSurfaceView.java" charset="GBK" />
     <file url="file://$PROJECT_DIR$/app/src/main/java/org/yanzi/playcamera/preview/DirectDrawer.java" charset="GBK" />

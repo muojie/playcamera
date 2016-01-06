@@ -1,4 +1,4 @@
-package org.yanzi.playcamera.Sample.Sample5_10;
+package org.yanzi.playcamera.Sample.Sample5.Sample5_10;
 import android.opengl.GLSurfaceView;
 import android.view.MotionEvent;
 import android.opengl.GLES20;

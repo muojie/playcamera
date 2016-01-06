@@ -111,10 +111,10 @@ public class Belt {
     // 初始化shader
     public void initShader(GLSurfaceView mv) {
         // 加载顶点着色器的脚本内容
-        mVertexShader = ShaderUtil.loadFromAssetsFile("vertex.sh",
+        mVertexShader = ShaderUtil.loadFromAssetsFile("vertex_belt_circle.sh",
                 mv.getResources());
         // 加载片元着色器的脚本内容
-        mFragmentShader = ShaderUtil.loadFromAssetsFile("frag.sh",
+        mFragmentShader = ShaderUtil.loadFromAssetsFile("frag_belt_circle.sh",
                 mv.getResources());
         // 基于顶点着色器与片元着色器创建程序
         mProgram = ShaderUtil.createProgram(mVertexShader, mFragmentShader);

@@ -1,4 +1,4 @@
-package org.yanzi.playcamera.Sample.Sample5_5;
+package org.yanzi.playcamera.Sample.Sample5.Sample5_5;
 
 import android.app.Activity;
 import android.content.pm.ActivityInfo;
