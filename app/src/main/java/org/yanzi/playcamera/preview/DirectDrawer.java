@@ -3,17 +3,22 @@ package org.yanzi.playcamera.preview;
 import java.nio.ByteBuffer;
 import java.nio.ByteOrder;
 import java.nio.FloatBuffer;
+import java.nio.IntBuffer;
 import java.nio.ShortBuffer;
 
+import android.graphics.Rect;
 import android.opengl.GLES11Ext;
 import android.opengl.GLES20;
 import android.opengl.Matrix;
+import android.util.Log;
 
 import org.yanzi.playcamera.CameraActivity;
 import org.yanzi.playcamera.R;
 import org.yanzi.playcamera.util.ShaderUtil;
 
 public class DirectDrawer {
+
+    private static final String TAG = "DirectDrawer";
 
     private FloatBuffer textureVerticesBuffer;
     private ShortBuffer drawListBuffer;
@@ -30,8 +35,6 @@ public class DirectDrawer {
     private static final int TRIANGLE_VERTICES_DATA_STRIDE_BYTES = 5 * FLOAT_SIZE_BYTES;
     private static final int TRIANGLE_VERTICES_DATA_POS_OFFSET = 0;
     private static final int TRIANGLE_VERTICES_DATA_UV_OFFSET = 3;
-    private static final int SAMPLE_WIDTH = 64;
-    private static final int SAMPLE_HEIGHT = 32;
 
     private float[] mMVPMatrix = new float[16];
 
@@ -91,7 +94,8 @@ public class DirectDrawer {
                 .order(ByteOrder.nativeOrder()).asFloatBuffer();
         mTriangleVertices.put(mTriangleVerticesData).position(0);
 
-        initShader();
+        Log.e(TAG, "texture id: " + texture);
+
     }
 
     public void draw(float[] mtx)
@@ -142,10 +146,7 @@ public class DirectDrawer {
     }
 
     //≥ı ºªØshader
-    public void initShader() {
-
-        String fragmentShader = ShaderUtil.getShaderSource(CameraActivity.getInstance(),R.raw.lomo_frag);
-        String vertexShader = ShaderUtil.getShaderSource(CameraActivity.getInstance(), R.raw.camera_vertex);
+    public void initShader(String vertexShader, String fragmentShader) {
 
         mProgram = ShaderUtil.createProgram(vertexShader, fragmentShader);
 
