@@ -27,7 +27,7 @@ import java.nio.IntBuffer;
 import java.nio.ShortBuffer;
 
 public class CameraGLSurfaceView extends GLSurfaceView implements Renderer, SurfaceTexture.OnFrameAvailableListener {
-	private static final String TAG = "yanzi";
+	private static final String TAG = "CameraGLSurfaceView";
 	Context mContext;
 	SurfaceTexture mSurface;
 	int mTextureID = -1;
@@ -47,6 +47,7 @@ public class CameraGLSurfaceView extends GLSurfaceView implements Renderer, Surf
 	private static final int SAMPLE_HEIGHT = 32;
 
 	private Rect mBlurRegion = new Rect(400, 500, 1150, 1000);
+	private boolean mBlur = false, mGlobalBlur = false;
 
 	private float[] mMVPMatrix = new float[16];
 
@@ -222,6 +223,9 @@ public class CameraGLSurfaceView extends GLSurfaceView implements Renderer, Surf
 		float[] mtx = new float[16];
 		mSurface.getTransformMatrix(mtx);
 
+		mBlur = true;
+		mGlobalBlur = true;
+		draw(mtx);
 		draw1(mtx);
 	}
 
@@ -315,49 +319,53 @@ public class CameraGLSurfaceView extends GLSurfaceView implements Renderer, Surf
 
 	public void draw(float[] mtx)
 	{
-		GLES20.glUseProgram(mProgram);
+		if (!mBlur) {
 
-		GLES20.glActiveTexture(GLES20.GL_TEXTURE0);
-		GLES20.glBindTexture(GLES11Ext.GL_TEXTURE_EXTERNAL_OES, mTextureID);
+			GLES20.glUseProgram(mProgram);
 
-		//赋值给Attribute aPosition
-		mTriangleVertices.position(TRIANGLE_VERTICES_DATA_POS_OFFSET);
-		GLES20.glVertexAttribPointer(maPositionHandle, 3, GLES20.GL_FLOAT, false,
-				TRIANGLE_VERTICES_DATA_STRIDE_BYTES, mTriangleVertices);
-		ShaderUtil.checkGlError("glVertexAttribPointer maPosition");
-		GLES20.glEnableVertexAttribArray(maPositionHandle);
-		ShaderUtil.checkGlError("glEnableVertexAttribArray maPositionHandle");
+			GLES20.glActiveTexture(GLES20.GL_TEXTURE0);
+			GLES20.glBindTexture(GLES11Ext.GL_TEXTURE_EXTERNAL_OES, mTextureID);
 
-		//赋值给Attribute aTextureCoord
-		mTriangleVertices.position(TRIANGLE_VERTICES_DATA_UV_OFFSET);
-		GLES20.glVertexAttribPointer(maTextureHandle, 3, GLES20.GL_FLOAT, false,
-				TRIANGLE_VERTICES_DATA_STRIDE_BYTES, mTriangleVertices);
-		//TODO: 旋转
-        /*
-        textureVerticesBuffer.clear();
-        textureVerticesBuffer.put(transformTextureCoordinates(textureVertices, mtx));
-        textureVerticesBuffer.position(0);
-        GLES20.glVertexAttribPointer(maTextureHandle, 2,
-                GLES20.GL_FLOAT, false, 2*4, textureVerticesBuffer);
-                */
-		ShaderUtil.checkGlError("glVertexAttribPointer maTextureHandle");
-		GLES20.glEnableVertexAttribArray(maTextureHandle);
-		ShaderUtil.checkGlError("glEnableVertexAttribArray maTextureHandle");
+			//赋值给Attribute aPosition
+			mTriangleVertices.position(TRIANGLE_VERTICES_DATA_POS_OFFSET);
+			GLES20.glVertexAttribPointer(maPositionHandle, 3, GLES20.GL_FLOAT, false,
+					TRIANGLE_VERTICES_DATA_STRIDE_BYTES, mTriangleVertices);
+			ShaderUtil.checkGlError("glVertexAttribPointer maPosition");
+			GLES20.glEnableVertexAttribArray(maPositionHandle);
+			ShaderUtil.checkGlError("glEnableVertexAttribArray maPositionHandle");
 
-		//TODO: 画三角形
-		//GLES20.glDrawElements(GLES20.GL_TRIANGLES, drawOrder.length, GLES20.GL_UNSIGNED_SHORT, drawListBuffer);
+			//赋值给Attribute aTextureCoord
+			mTriangleVertices.position(TRIANGLE_VERTICES_DATA_UV_OFFSET);
+			GLES20.glVertexAttribPointer(maTextureHandle, 3, GLES20.GL_FLOAT, false,
+					TRIANGLE_VERTICES_DATA_STRIDE_BYTES, mTriangleVertices);
+			//TODO: 旋转
 
-		Matrix.setIdentityM(mMVPMatrix, 0);
-		GLES20.glUniformMatrix4fv(muMVPMatrixHandle, 1, false, mMVPMatrix, 0);
-		GLES20.glUniformMatrix4fv(muSTMatrixHandle, 1, false, mtx, 0);
+			/*
+  			  textureVerticesBuffer.clear();
+  			  textureVerticesBuffer.put(transformTextureCoordinates(textureVertices, mtx));
+   			  textureVerticesBuffer.position(0);
+    		  GLES20.glVertexAttribPointer(maTextureHandle, 2,
+              GLES20.GL_FLOAT, false, 2*4, textureVerticesBuffer);
+            */
+			ShaderUtil.checkGlError("glVertexAttribPointer maTextureHandle");
+			GLES20.glEnableVertexAttribArray(maTextureHandle);
+			ShaderUtil.checkGlError("glEnableVertexAttribArray maTextureHandle");
 
-		GLES20.glBlendColor(1.0f, 0.0f, 0.0f, 1.0f);
-		GLES20.glDrawArrays(GLES20.GL_TRIANGLE_STRIP, 0, 4);
-		ShaderUtil.checkGlError("glDrawArrays");
+			//TODO: 画三角形
+			//GLES20.glDrawElements(GLES20.GL_TRIANGLES, drawOrder.length, GLES20.GL_UNSIGNED_SHORT, drawListBuffer);
 
-		// Disable vertex array
-		GLES20.glDisableVertexAttribArray(maPositionHandle);
-		GLES20.glDisableVertexAttribArray(maTextureHandle);
+			Matrix.setIdentityM(mMVPMatrix, 0);
+			GLES20.glUniformMatrix4fv(muMVPMatrixHandle, 1, false, mMVPMatrix, 0);
+			GLES20.glUniformMatrix4fv(muSTMatrixHandle, 1, false, mtx, 0);
+
+			GLES20.glBlendColor(1.0f, 0.0f, 0.0f, 1.0f);
+			GLES20.glDrawArrays(GLES20.GL_TRIANGLE_STRIP, 0, 4);
+			ShaderUtil.checkGlError("glDrawArrays");
+
+			// Disable vertex array
+			GLES20.glDisableVertexAttribArray(maPositionHandle);
+			GLES20.glDisableVertexAttribArray(maTextureHandle);
+		}
 	}
 /* */
 	public void draw1(float[] mtx)
@@ -369,6 +377,12 @@ public class CameraGLSurfaceView extends GLSurfaceView implements Renderer, Surf
 		GLES20.glGetIntegerv(GLES20.GL_MAX_RENDERBUFFER_SIZE, maxRenderbufferSize);
 
 		synchronized (this) {
+
+			if (!mBlur) {
+				GLES20.glDeleteFramebuffers(1, framebuffer0);
+				GLES20.glDeleteTextures(1, texture0);
+				return;
+			}
 
 			if (null == mTextureBuffer) {
 				calBlurParas();
@@ -411,6 +425,42 @@ public class CameraGLSurfaceView extends GLSurfaceView implements Renderer, Surf
 				GLES20.glDrawArrays(GLES20.GL_TRIANGLE_STRIP, 0, 4);
 				ShaderUtil.checkGlError("glDrawArrays");
 			}
+
+			// 2.叠加
+			GLES20.glBindFramebuffer(GLES20.GL_FRAMEBUFFER, 0);
+
+			GLES20.glClearColor(0.0f, 0.0f, 1.0f, 1.0f);
+			GLES20.glClear(GLES20.GL_DEPTH_BUFFER_BIT | GLES20.GL_COLOR_BUFFER_BIT);
+
+			if (!mGlobalBlur) {
+				// 2.1 清晰层
+				GLES20.glUseProgram(mProgram);
+				ShaderUtil.checkGlError("glUseProgram");
+
+				GLES20.glActiveTexture(GLES20.GL_TEXTURE0);
+				GLES20.glBindTexture(GLES11Ext.GL_TEXTURE_EXTERNAL_OES, mTextureID);
+
+				mTriangleVertices.position(TRIANGLE_VERTICES_DATA_POS_OFFSET);
+				GLES20.glVertexAttribPointer(maPositionHandle, 3, GLES20.GL_FLOAT, false,
+						TRIANGLE_VERTICES_DATA_STRIDE_BYTES, mTriangleVertices);
+				ShaderUtil.checkGlError("glVertexAttribPointer maPosition");
+				GLES20.glEnableVertexAttribArray(maPositionHandle);
+				ShaderUtil.checkGlError("glEnableVertexAttribArray maPositionHandle");
+
+				mTriangleVertices.position(TRIANGLE_VERTICES_DATA_UV_OFFSET);
+				GLES20.glVertexAttribPointer(maTextureHandle, 3, GLES20.GL_FLOAT, false,
+						TRIANGLE_VERTICES_DATA_STRIDE_BYTES, mTriangleVertices);
+				ShaderUtil.checkGlError("glVertexAttribPointer maTextureHandle");
+				GLES20.glEnableVertexAttribArray(maTextureHandle);
+				ShaderUtil.checkGlError("glEnableVertexAttribArray maTextureHandle");
+
+				GLES20.glUniformMatrix4fv(muMVPMatrixHandle, 1, false, mMVPMatrix, 0);
+				GLES20.glUniformMatrix4fv(muSTMatrixHandle, 1, false, mtx, 0);
+
+				GLES20.glDrawArrays(GLES20.GL_TRIANGLE_STRIP, 0, 4);
+				ShaderUtil.checkGlError("glDrawArrays");
+			}
+
 			// 2.2 模糊层
 			GLES20.glBindFramebuffer(GLES20.GL_FRAMEBUFFER, 0);
 
@@ -447,6 +497,29 @@ public class CameraGLSurfaceView extends GLSurfaceView implements Renderer, Surf
 		// cleanup
 		GLES20.glDeleteFramebuffers(1, framebuffer0);
 		GLES20.glDeleteTextures(1, texture0);
+	}
+
+	public void beginBlur(Rect blurRegion) {
+		Log.d(TAG, "beginBlur:" + blurRegion);
+		mBlur = true;
+		if (null == blurRegion) {
+			mGlobalBlur = true;
+		}
+		mBlurRegion = blurRegion;
+	}
+
+	public void endBlur() {
+		Log.d(TAG, "endBlur");
+		mBlur = false;
+		mGlobalBlur = false;
+		// mBlurRegion = null;
+/*
+		if (null != mRenderer) {
+			synchronized (mRenderer) {
+				mRenderer.clearBlurParas();
+			}
+		}
+		*/
 	}
 
 	private void calBlurParas() {
