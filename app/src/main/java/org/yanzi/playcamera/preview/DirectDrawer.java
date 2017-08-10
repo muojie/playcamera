@@ -105,7 +105,7 @@ public class DirectDrawer {
         GLES20.glActiveTexture(GLES20.GL_TEXTURE0);
         GLES20.glBindTexture(GLES11Ext.GL_TEXTURE_EXTERNAL_OES, texture);
 
-        //赋值给Attribute aPosition
+        //璧嬪�肩粰Attribute aPosition
         mTriangleVertices.position(TRIANGLE_VERTICES_DATA_POS_OFFSET);
         GLES20.glVertexAttribPointer(maPositionHandle, 3, GLES20.GL_FLOAT, false,
                 TRIANGLE_VERTICES_DATA_STRIDE_BYTES, mTriangleVertices);
@@ -113,11 +113,11 @@ public class DirectDrawer {
         GLES20.glEnableVertexAttribArray(maPositionHandle);
         ShaderUtil.checkGlError("glEnableVertexAttribArray maPositionHandle");
 
-        //赋值给Attribute aTextureCoord
+        //璧嬪�肩粰Attribute aTextureCoord
         mTriangleVertices.position(TRIANGLE_VERTICES_DATA_UV_OFFSET);
         GLES20.glVertexAttribPointer(maTextureHandle, 3, GLES20.GL_FLOAT, false,
                 TRIANGLE_VERTICES_DATA_STRIDE_BYTES, mTriangleVertices);
-        //TODO: 旋转
+        //TODO: 鏃嬭浆
         /*
         textureVerticesBuffer.clear();
         textureVerticesBuffer.put(transformTextureCoordinates(textureVertices, mtx));
@@ -129,7 +129,7 @@ public class DirectDrawer {
         GLES20.glEnableVertexAttribArray(maTextureHandle);
         ShaderUtil.checkGlError("glEnableVertexAttribArray maTextureHandle");
 
-        //TODO: 画三角形
+        //TODO: 鐢讳笁瑙掑舰
         //GLES20.glDrawElements(GLES20.GL_TRIANGLES, drawOrder.length, GLES20.GL_UNSIGNED_SHORT, drawListBuffer);
 
         Matrix.setIdentityM(mMVPMatrix, 0);
@@ -145,7 +145,7 @@ public class DirectDrawer {
         GLES20.glDisableVertexAttribArray(maTextureHandle);
     }
 
-    //初始化shader
+    //鍒濆鍖杝hader
     public void initShader(String vertexShader, String fragmentShader) {
 
         mProgram = ShaderUtil.createProgram(vertexShader, fragmentShader);

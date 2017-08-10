@@ -32,7 +32,7 @@ public class CameraGLSurfaceView extends GLSurfaceView implements Renderer, Surf
 	SurfaceTexture mSurface;
 	int mTextureID = -1;
 
-	//TODO£∫copy from DirectDrawer.java
+	//TODOÔºöcopy from DirectDrawer.java
 	private FloatBuffer textureVerticesBuffer;
 	private ShortBuffer drawListBuffer;
 
@@ -326,7 +326,7 @@ public class CameraGLSurfaceView extends GLSurfaceView implements Renderer, Surf
 			GLES20.glActiveTexture(GLES20.GL_TEXTURE0);
 			GLES20.glBindTexture(GLES11Ext.GL_TEXTURE_EXTERNAL_OES, mTextureID);
 
-			//∏≥÷µ∏¯Attribute aPosition
+			//ËµãÂÄºÁªôAttribute aPosition
 			mTriangleVertices.position(TRIANGLE_VERTICES_DATA_POS_OFFSET);
 			GLES20.glVertexAttribPointer(maPositionHandle, 3, GLES20.GL_FLOAT, false,
 					TRIANGLE_VERTICES_DATA_STRIDE_BYTES, mTriangleVertices);
@@ -334,11 +334,11 @@ public class CameraGLSurfaceView extends GLSurfaceView implements Renderer, Surf
 			GLES20.glEnableVertexAttribArray(maPositionHandle);
 			ShaderUtil.checkGlError("glEnableVertexAttribArray maPositionHandle");
 
-			//∏≥÷µ∏¯Attribute aTextureCoord
+			//ËµãÂÄºÁªôAttribute aTextureCoord
 			mTriangleVertices.position(TRIANGLE_VERTICES_DATA_UV_OFFSET);
 			GLES20.glVertexAttribPointer(maTextureHandle, 3, GLES20.GL_FLOAT, false,
 					TRIANGLE_VERTICES_DATA_STRIDE_BYTES, mTriangleVertices);
-			//TODO: –˝◊™
+			//TODO: ÊóãËΩ¨
 
 			/*
   			  textureVerticesBuffer.clear();
@@ -351,7 +351,7 @@ public class CameraGLSurfaceView extends GLSurfaceView implements Renderer, Surf
 			GLES20.glEnableVertexAttribArray(maTextureHandle);
 			ShaderUtil.checkGlError("glEnableVertexAttribArray maTextureHandle");
 
-			//TODO: ª≠»˝Ω«–Œ
+			//TODO: Áîª‰∏âËßíÂΩ¢
 			//GLES20.glDrawElements(GLES20.GL_TRIANGLES, drawOrder.length, GLES20.GL_UNSIGNED_SHORT, drawListBuffer);
 
 			Matrix.setIdentityM(mMVPMatrix, 0);
@@ -426,14 +426,14 @@ public class CameraGLSurfaceView extends GLSurfaceView implements Renderer, Surf
 				ShaderUtil.checkGlError("glDrawArrays");
 			}
 
-			// 2.µ˛º”
+			// 2.Âè†Âä†
 			GLES20.glBindFramebuffer(GLES20.GL_FRAMEBUFFER, 0);
 
 			GLES20.glClearColor(0.0f, 0.0f, 1.0f, 1.0f);
 			GLES20.glClear(GLES20.GL_DEPTH_BUFFER_BIT | GLES20.GL_COLOR_BUFFER_BIT);
 
 			if (!mGlobalBlur) {
-				// 2.1 «ÂŒ˙≤„
+				// 2.1 Ê∏ÖÊô∞Â±Ç
 				GLES20.glUseProgram(mProgram);
 				ShaderUtil.checkGlError("glUseProgram");
 
@@ -461,7 +461,7 @@ public class CameraGLSurfaceView extends GLSurfaceView implements Renderer, Surf
 				ShaderUtil.checkGlError("glDrawArrays");
 			}
 
-			// 2.2 ƒ£∫˝≤„
+			// 2.2 Ê®°Á≥äÂ±Ç
 			GLES20.glBindFramebuffer(GLES20.GL_FRAMEBUFFER, 0);
 
 			GLES20.glUseProgram(mBlurProgram);
@@ -632,7 +632,7 @@ public class CameraGLSurfaceView extends GLSurfaceView implements Renderer, Surf
 		return status == GLES20.GL_FRAMEBUFFER_COMPLETE;
 	}
 
-	//≥ı ºªØshader
+	//ÂàùÂßãÂåñshader
 	public void initShader(String vertexShader, String fragmentShader) {
 
 		mProgram = ShaderUtil.createProgram(vertexShader, fragmentShader);
@@ -664,7 +664,7 @@ public class CameraGLSurfaceView extends GLSurfaceView implements Renderer, Surf
 		}
 	}
 
-	//≥ı ºªØshader
+	//ÂàùÂßãÂåñshader
 	public void initBlurShader(String vertexShader, String fragmentShader) {
 		Log.d(TAG, "initBlurShader");
 
